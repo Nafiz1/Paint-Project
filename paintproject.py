@@ -480,7 +480,9 @@ while running:
             screen.blit(back,(0,0))
             #starts at where the mouse clicks
             #length and width is mouse position minus click position
-            draw.rect(screen,color,(cx,cy,mx-cx,my-cy))
+            r = Rect(cx,cy,mx-cx,my-cy)
+            r.normalize()
+            draw.rect(screen,color,(r))
         if tool == "unfilledrectangle":
             screen.blit(back,(0,0))
             # draws 4 rectangles to make it seem like 1 rectangle
@@ -488,10 +490,18 @@ while running:
             # +1 to mx and my because it is drawn 1 pixel off
             # minus size//2 to draw the rectangle in the middle of the mouse
             # width of rectangle depends on size
-            draw.rect(screen,color,(cx-(size//2),cy-(size//2),size+1,my+1-cy)) #makes rectangle from my to cy
-            draw.rect(screen,color,(cx-(size//2),cy-(size//2),mx+1-cx,size+1)) #makes rectangle from mx to cx
-            draw.rect(screen,color,(mx-(size//2),my-(size//2),size+1,cy-my+1)) #makes rectangle from cy to my
-            draw.rect(screen,color,(mx-(size//2),my-(size//2),cx-mx+1,size+1)) #makes rectangle from cx to mx
+            r1 = Rect(cx-(size//2),cy-(size//2),size+1,my+1-cy)
+            r1.normalize()
+            r2 = Rect(cx-(size//2),cy-(size//2),mx+1-cx,size+1)
+            r2.normalize()
+            r3 = Rect(mx-(size//2),my-(size//2),size+1,cy-my+1)
+            r3.normalize()
+            r4 = Rect(mx-(size//2),my-(size//2),cx-mx+1,size+1)
+            r4.normalize()
+            draw.rect(screen,color,(r1)) #makes rectangle from my to cy
+            draw.rect(screen,color,(r2)) #makes rectangle from mx to cx
+            draw.rect(screen,color,(r3)) #makes rectangle from cy to my
+            draw.rect(screen,color,(r4)) #makes rectangle from cx to mx
             #make rectangles in each corner to get rid of missing corners
             draw.rect(screen,color,(cx-(size//2),cy-(size//2),size+1,size+1))
             draw.rect(screen,color,(mx-(size//2),my-(size//2),size+1,size+1))
